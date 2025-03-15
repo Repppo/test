@@ -2,11 +2,28 @@
 <html>
 	<head>
 		<title>Reppo's Repo</title>
+		<link rel="stylesheet" href="styles.css">
+		<script> play_sound(clicked_id) {
+			var audio = new Audio(clicked_id + ".mp3");
+			audio.play();
+		  } 
+
+		  <button id="sivabbe" onClick="play_sound(this.id)">sivabbe</button>
+
+		</script>
 	</head>
+		  
 <body>
 	<h1>Ciao a tutti</h1>
 	<p>Questo e il sito di Lugio.</p>
-	<p>Prima o poi diventera tanta roba</p> 
+	<p>Prima o poi diventerà tanta roba</p> 
 	<iframe width="560" height="315" src="https://www.youtube.com/embed/o0XIOR2FQEM?si=hFgiAAYmrnlX8l8D" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+	<div class="container">
+		<div class="center">
+		  <button id="sivabbe">Si vabbè ma</button>
+		  <button id="puttraia">Porca puttraia</button>
+		</div>
+	  </div>
 </body>
 </html>
