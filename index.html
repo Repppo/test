@@ -36,9 +36,9 @@
 		<input id="volumeFader" type="range" min="0" max="1" step="0.01" value="0.5">
 		<br>
 	
-		<h2>Scan</h2>
-		<!-- Fader per la posizione -->
-		<input id="seekFader" type="range" min="0" max="1" step="0.01" value="0">
+		<h2>Speed</h2>
+		<!-- Fader per la posizione e velocità (scan) -->
+		<input id="seekFader" type="range" min="-1" max="1" step="0.01" value="0">
 	
 		<br><br>
 	
@@ -57,10 +57,24 @@
 			audio.volume = event.target.value; // Imposta il volume
 		});
 	
-		// Gestisce lo scanning tramite il fader
+		// Gestisce lo scanning tramite il fader (controllo della posizione e velocità)
 		document.getElementById('seekFader').addEventListener('input', (event) => {
-			const seekValue = event.target.value;
-			audio.currentTime = seekValue * audio.duration; // Imposta la posizione del brano
+			const value = event.target.value;
+	
+			// Calcola la direzione (positivo o negativo) in base al valore del fader
+			const direction = value > 0 ? 1 : (value < 0 ? -1 : 0);
+	
+			if (direction !== 0) {
+				// Se il fader è in movimento, aumenta o diminuisce la posizione
+				audio.currentTime += direction * Math.abs(value) * 2; // Incrementa o decrementa la posizione
+			}
+	
+			// Se il fader è a 0, metti l'audio in pausa
+			if (value === 0) {
+				audio.pause();
+			} else if (audio.paused) {
+				audio.play(); // Se non è in pausa, fallo partire
+			}
 		});
 	
 		// Gestisce il tasto Play
