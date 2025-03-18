@@ -32,81 +32,49 @@
 
 	<div class="container">
 		<h2>Volume</h2>
-		<audio id="audioPlayer" controls>
-			<source src="sivabbe.mp3" type="audio/mpeg">
-			Il tuo browser non supporta l'elemento audio.
-		</audio>
+		<!-- Fader per il volume -->
+		<input id="volumeFader" type="range" min="0" max="1" step="0.01" value="0.5">
 		<br>
-
-		<!-- Dial per il volume -->
-		<img id="volumeDial" class="dial" src="volume.png" alt="Volume Dial">
-		<br>
-
+	
 		<h2>Scan</h2>
-		<!-- Dial per la posizione -->
-		<img id="seekDial" class="dial" src="arrow.png" alt="Seek Dial">
+		<!-- Fader per la posizione -->
+		<input id="seekFader" type="range" min="0" max="1" step="0.01" value="0">
+	
+		<br><br>
+	
+		<!-- Tasto Play per avviare l'audio -->
+		<button id="playButton">Play</button>
 	</div>
-
+	
 	<br><br>
-
-	<script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+	
 	<script>
-		const audio = document.getElementById('audioPlayer');
-		let isSeeking = false; // Stato dello scanning
-
-		// Funzione per configurare il dial
-		function setupDial(id, onRotate, onRelease) {
-			let angle = 0;
-
-			interact(`#${id}`).draggable({
-				onstart() {
-					isSeeking = true; // Inizia lo scanning
-				},
-				onmove(event) {
-					angle += event.dx / 2; // Sensibilità della rotazione
-					if (angle < -270) angle = -270;
-					if (angle > 270) angle = 270;
-
-					document.getElementById(id).style.transform = `rotate(${angle}deg)`;
-
-					// Normalizza il valore tra -1 e 1
-					const value = angle / 270;
-					onRotate(value);
-				},
-				onend() {
-					isSeeking = false;
-					onRelease(); // Ripristina la velocità normale
-				}
-			});
-		}
-
-		// Dial per il volume
-		setupDial(
-			'volumeDial',
-			(value) => {
-				// Imposta il volume tra 0 e 1
-				audio.volume = value;
-			},
-			() => {
-				// Opzionale: puoi resettare il volume a un valore predefinito (ad esempio, 0.5)
-				// audio.volume = 0.5;
+		const audio = new Audio('sivabbe.mp3'); // Crea un nuovo oggetto audio
+		audio.loop = true; // Imposta l'audio in loop
+	
+		// Gestisce il cambiamento del volume tramite il fader
+		document.getElementById('volumeFader').addEventListener('input', (event) => {
+			audio.volume = event.target.value; // Imposta il volume
+		});
+	
+		// Gestisce lo scanning tramite il fader
+		document.getElementById('seekFader').addEventListener('input', (event) => {
+			const seekValue = event.target.value;
+			audio.currentTime = seekValue * audio.duration; // Imposta la posizione del brano
+		});
+	
+		// Gestisce il tasto Play
+		document.getElementById('playButton').addEventListener('click', () => {
+			if (audio.paused) {
+				audio.play(); // Avvia la riproduzione se l'audio è in pausa
+				document.getElementById('playButton').textContent = 'Pause'; // Cambia il testo del tasto a "Pause"
+			} else {
+				audio.pause(); // Pausa l'audio se è in riproduzione
+				document.getElementById('playButton').textContent = 'Play'; // Cambia il testo del tasto a "Play"
 			}
-		);
-
-		// Dial per lo scanning della posizione audio
-		setupDial(
-			'seekDial',
-			(value) => {
-				if (audio.duration) {
-					// Imposta la velocità tra -3x (indietro) e 3x (avanti)
-					audio.playbackRate = value * 3;
-				}
-			},
-			() => {
-				audio.playbackRate = 1; // Torna a velocità normale quando rilasci
-			}
-		);
+		});
 	</script>
+	
 </body>
 
 </html>
