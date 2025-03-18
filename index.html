@@ -1,98 +1,112 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Reppo's Repo</title>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="styles.css">
-		<script> 
-			function play_sound(clicked_id) {
-				var audio = new Audio(clicked_id + ".mp3");
-				audio.play();
-			} 
-		</script>
-		<script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-	</head>
-		  
+
+<head>
+	<title>Reppo's Repo</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles.css">
+	<script>
+		function play_sound(clicked_id) {
+			var audio = new Audio(clicked_id + ".mp3");
+			audio.play();
+		} 
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+</head>
+
 <body>
 	<h1>Ciao a tutti</h1>
 	<p>Questo e il sito di Lugio.</p>
-	<p>Prima o poi diventerà tanta roba</p> 
+	<p>Prima o poi diventerà tanta roba</p>
 
 	<div class="container">
 		<div class="center">
 			<button id="sivabbe" onClick="play_sound(this.id)">Si vabbe ma</button>
 			<button id="echecculo" onClick="play_sound(this.id)">Ecchecculo</button>
 		</div>
-	  </div>
-	
-	  <br>
-	  <br> 
-
-	  <div class="container">
-        <h2>Volume</h2>
-        <audio id="audioPlayer" controls>
-            <source src="sivabbe.mp3" type="audio/mpeg">
-            Il tuo browser non supporta l'elemento audio.
-        </audio>
-        <br>
-
-        <!-- Dial per il volume -->
-        <img id="volumeDial" class="dial" src="volume.png" alt="Volume Dial">
-        <br>
-
-        <h2>Scan</h2>
-        <!-- Dial per la posizione -->
-        <img id="seekDial" class="dial" src="arrow.png" alt="Seek Dial">
-    </div>
+	</div>
 
 	<br>
-	<br> 
+	<br>
 
-    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-    <script>
-		const audio = document.getElementById('audioPlayer'); 
-	let isSeeking = false; // Stato dello scanning
+	<div class="container">
+		<h2>Volume</h2>
+		<audio id="audioPlayer" controls>
+			<source src="sivabbe.mp3" type="audio/mpeg">
+			Il tuo browser non supporta l'elemento audio.
+		</audio>
+		<br>
 
-	function setupDial(id, onRotate, onRelease) {
-		let angle = 0;
+		<!-- Dial per il volume -->
+		<img id="volumeDial" class="dial" src="volume.png" alt="Volume Dial">
+		<br>
 
-		interact(`#${id}`).draggable({
-			onstart() {
-				isSeeking = true; // Inizia lo scanning
-			},
-			onmove(event) {
-				angle += event.dx / 2; // Controllo della sensibilità
-				if (angle < -270) angle = -270;
-				if (angle > 270) angle = 270;
+		<h2>Scan</h2>
+		<!-- Dial per la posizione -->
+		<img id="seekDial" class="dial" src="arrow.png" alt="Seek Dial">
+	</div>
 
-				document.getElementById(id).style.transform = `rotate(${angle}deg)`;
+	<br><br>
 
-				// Normalizza valore tra -1 e 1
-				const value = angle / 270;
-				onRotate(value);
-			},
-			onend() {
-				isSeeking = false;
-				onRelease(); // Ripristina la velocità normale
-			}
-		});
-	}
+	<script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+	<script>
+		const audio = document.getElementById('audioPlayer');
+		let isSeeking = false; // Stato dello scanning
 
-	// Applica la funzione al dial del seek
-	setupDial(
-		'seekDial',
-		(value) => {
-			if (audio.duration) {
-				// Imposta velocità tra -3x (indietro) e 3x (avanti)
-				audio.playbackRate = value * 3;
-			}
-		},
-		() => {
-			audio.playbackRate = 1; // Torna a velocità normale quando rilasci
+		// Funzione per configurare il dial
+		function setupDial(id, onRotate, onRelease) {
+			let angle = 0;
+
+			interact(`#${id}`).draggable({
+				onstart() {
+					isSeeking = true; // Inizia lo scanning
+				},
+				onmove(event) {
+					angle += event.dx / 2; // Sensibilità della rotazione
+					if (angle < -270) angle = -270;
+					if (angle > 270) angle = 270;
+
+					document.getElementById(id).style.transform = `rotate(${angle}deg)`;
+
+					// Normalizza il valore tra -1 e 1
+					const value = angle / 270;
+					onRotate(value);
+				},
+				onend() {
+					isSeeking = false;
+					onRelease(); // Ripristina la velocità normale
+				}
+			});
 		}
-	);
 
-    </script>
+		// Dial per il volume
+		setupDial(
+			'volumeDial',
+			(value) => {
+				// Imposta il volume tra 0 e 1
+				audio.volume = value;
+			},
+			() => {
+				// Opzionale: puoi resettare il volume a un valore predefinito (ad esempio, 0.5)
+				// audio.volume = 0.5;
+			}
+		);
+
+		// Dial per lo scanning della posizione audio
+		setupDial(
+			'seekDial',
+			(value) => {
+				if (audio.duration) {
+					// Imposta la velocità tra -3x (indietro) e 3x (avanti)
+					audio.playbackRate = value * 3;
+				}
+			},
+			() => {
+				audio.playbackRate = 1; // Torna a velocità normale quando rilasci
+			}
+		);
+	</script>
 </body>
+
 </html>
