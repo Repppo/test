@@ -80,14 +80,47 @@
             document.getElementById('volumeDial').textContent = `Volume: ${(value * 100).toFixed(0)}%`;
         });
 
-		// Dial per lo scorrimento della traccia audio (più preciso)
-		setupDial('seekDial', (value) => {
-			if (audio.duration) {
-				const preciseTime = (value * audio.duration).toFixed(2); // Due decimali
-				audio.currentTime = preciseTime;
-				document.getElementById('seekDial').textContent = `Sec: ${preciseTime}`;
+		const audio = document.getElementById('audioPlayer'); 
+		let isSeeking = false; // Stato dello scanning
+
+		function setupDial(id, onRotate, onRelease) {
+			let angle = 0;
+
+			interact(`#${id}`).draggable({
+				onstart() {
+					isSeeking = true; // Inizia lo scanning
+				},
+				onmove(event) {
+					angle += event.dx / 2; // Controllo della sensibilità
+					if (angle < -270) angle = -270;
+					if (angle > 270) angle = 270;
+
+					document.getElementById(id).style.transform = `rotate(${angle}deg)`;
+
+					// Normalizza valore tra -1 e 1
+					const value = angle / 270;
+					onRotate(value);
+				},
+				onend() {
+					isSeeking = false;
+					onRelease(); // Ripristina la velocità normale
+				}
+			});
+		}
+
+		// Applica la funzione al dial del seek
+		setupDial(
+			'seekDial',
+			(value) => {
+				if (audio.duration) {
+					// Imposta velocità tra -3x (indietro) e 3x (avanti)
+					audio.playbackRate = value * 3;
+				}
+			},
+			() => {
+				audio.playbackRate = 1; // Torna a velocità normale quando rilasci
 			}
-		});
+		);
 
     </script>
 </body>
