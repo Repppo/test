@@ -34,3 +34,66 @@ body {
   transform: translateX(-50%);
   border-radius: 3px;
 }
+
+/* Personalizzazione generale del fader */
+input[type="range"] {
+  -webkit-appearance: none; /* Rimuovi l'aspetto predefinito */
+  width: 100%; /* Occupare tutta la larghezza disponibile */
+  height: 12px; /* Altezza del fader */
+  background: #ccc; /* Colore della traccia */
+  border-radius: 8px; /* Bordo arrotondato */
+  outline: none; /* Rimuovi il bordo di selezione */
+  cursor: pointer; /* Cambia il cursore quando sopra il fader */
+  user-select: none; /* Impedisce la selezione del testo durante il dragging */
+  transition: all 0.2s ease-in-out; /* Effetto di transizione */
+}
+
+/* Cambia colore della traccia durante l'hover */
+input[type="range"]:hover {
+  background: #bbb;
+}
+
+/* Personalizza la traccia del fader */
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 12px; /* Altezza della traccia */
+  background: #4CAF50; /* Colore della traccia */
+  border-radius: 8px; /* Bordo arrotondato della traccia */
+}
+
+/* Personalizza il thumb (manopola) del fader */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 25px; /* Altezza del thumb */
+  width: 25px; /* Larghezza del thumb */
+  border-radius: 50%; /* Forma rotonda */
+  background: #4CAF50; /* Colore del thumb */
+  cursor: pointer; /* Cambia il cursore quando sopra il thumb */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Aggiungi un'ombra */
+  transition: background 0.2s ease; /* Transizione per il colore del thumb */
+}
+
+/* Cambia colore del thumb quando è in fase di attivazione */
+input[type="range"]:active::-webkit-slider-thumb {
+  background: #45a049;
+}
+
+/* Personalizza il thumb per Firefox */
+input[type="range"]::-moz-range-track {
+  background: #4CAF50;
+  border-radius: 8px;
+  height: 12px;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Aggiungi l'effetto hover anche su Firefox */
+input[type="range"]:active::-moz-range-thumb {
+  background: #45a049;
+}
