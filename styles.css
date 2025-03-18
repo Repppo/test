@@ -11,6 +11,7 @@ body {
 /* Personalizzazione generale del fader */
 input[type="range"] {
   -webkit-appearance: none; /* Rimuovi l'aspetto predefinito */
+  appearance: none; /* Rimuovi l'aspetto predefinito per compatibilità */
   width: 100%; /* Occupare tutta la larghezza disponibile */
   height: 12px; /* Altezza del fader */
   background: #ccc; /* Colore della traccia */
