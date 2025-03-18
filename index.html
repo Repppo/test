@@ -39,12 +39,12 @@
         <br>
 
         <!-- Dial per il volume -->
-        <div class="dial" id="volumeDial">Vol</div>
+        <img id="volumeDial" class="dial" src="volume.png" alt="Volume Dial">
         <br>
 
         <h2>Scan</h2>
         <!-- Dial per la posizione -->
-        <div class="dial" id="seekDial">Seek</div>
+        <img id="seekDial" class="dial" src="arrow.png" alt="Seek Dial">
     </div>
 
 	<br>
@@ -56,23 +56,23 @@
         let volume = 1; // Volume iniziale
         let seekPos = 0; // Posizione iniziale
 
-        function setupDial(id, onRotate) {
-            let angle = 0;
+		function setupDial(id, onRotate) {
+    let angle = 0;
 
-            interact(`#${id}`).draggable({
-                onmove(event) {
-                    angle += event.dx / 2; // Ruota in base al movimento
-                    if (angle < 0) angle = 0;
-                    if (angle > 270) angle = 270; // Limita a 270° per un range più naturale
+    interact(`#${id}`).draggable({
+        onmove(event) {
+            angle += event.dx / 2; // Sensibilità della rotazione
+            if (angle < 0) angle = 0;
+            if (angle > 270) angle = 270; // Limita a 270° per un range più naturale
 
-                    document.getElementById(id).style.transform = `rotate(${angle}deg)`;
+            document.getElementById(id).style.transform = `rotate(${angle}deg)`;
 
-                    // Calcola valore normalizzato tra 0 e 1
-                    const value = angle / 270;
-                    onRotate(value);
-                }
-            });
+            // Normalizza valore tra 0 e 1
+            const value = angle / 270;
+            onRotate(value);
         }
+    });
+}
 
         // Dial per il volume
         setupDial('volumeDial', (value) => {
