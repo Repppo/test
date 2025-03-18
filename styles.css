@@ -8,6 +8,59 @@ body {
   margin: auto;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.container {
+  text-align: center;
+}
+
+.slider-container {
+  margin-top: 20px;
+}
+
+#mouth {
+  width: 100px;
+  height: 50px;
+  background-color: red;
+  border-radius: 50%;
+  margin-top: 20px;
+  transition: height 0.2s ease;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+#speedSlider {
+  width: 300px;
+}
+
+#speedValue {
+  margin-left: 10px;
+}
+
 /* Personalizzazione generale del fader */
 input[type="range"] {
   -webkit-appearance: none; /* Rimuovi l'aspetto predefinito */
