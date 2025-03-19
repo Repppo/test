@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simo Sound Machine</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>PROJECT: Simo Sound Machine</h1>
+        <h2>A little sound player, with a twist.</h2>
+    </div>
+
+    <br><br>
+
+    <div class="container">
+
+        <!-- Tasto Play -->
+        <button id="playButton" class="play-button">PLAY</button>
+
+        <h2>Volume</h2>
+        <input id="volumeFader" type="range" min="0" max="1" step="0.01" value="0.5">
+        <br>
+
+        <h2>Curse</h2>
+        <input id="curseFader" type="range" min="0" max="1" step="0.01" value="0">
+
+    </div>
+
+    <script>
+        const audio = new Audio('sivabbe.mp3');
+        audio.loop = true;
+
+        // Controllo Volume
+        document.getElementById('volumeFader').addEventListener('input', (event) => {
+            audio.volume = event.target.value;
+        });
+
+        // Controllo Curse (rallentamento senza fermarsi)
+        document.getElementById('curseFader').addEventListener('input', (event) => {
+            const curseValue = parseFloat(event.target.value);
+            const minRate = 0.1; // Velocità minima (mai 0)
+            audio.playbackRate = Math.max(1 - curseValue * 0.9, minRate); 
+        });
+
+        // Gestione Play/Pausa
+        document.getElementById('playButton').addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                document.getElementById('playButton').textContent = 'PAUSE';
+            } else {
+                audio.pause();
+                document.getElementById('playButton').textContent = 'PLAY';
+            }
+        });
+
+    </script>
+
+</body>
+</html>
