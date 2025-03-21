@@ -12,77 +12,36 @@
 			audio.play();
 		} 
 	</script>
-	<script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 </head>
 
 <body>
-	<h1>Ciao a tutti</h1>
-	<p>Questo e il sito di Lugio.</p>
-	<p>Prima o poi diventerà tanta roba</p>
-	<a href="/test/pages/simo.html">Project Simo</a>
-
 	<div class="container">
-		<div class="center">
-			<button id="sivabbe" onClick="play_sound(this.id)">Si vabbe ma</button>
-			<button id="echecculo" onClick="play_sound(this.id)">Ecchecculo</button>
+		<h1>CIAO A TUTTI</h1>
+		<p>Questo e il sito di <strong>Lugio.</strong></p>
+		<p>Prima o poi diventerà tanta roba</p>
+
+		<div class="container">
+			<div class="center">
+				<button id="sivabbe" onClick="play_sound(this.id)">Si vabbe ma</button>
+				<button id="echecculo" onClick="play_sound(this.id)">Ecchecculo</button>
+			</div>
 		</div>
+
+
 	</div>
-
-	<br>
-	<br>
-
 	<div class="container">
-		<h2>Volume</h2>
-		<!-- Fader per il volume -->
-		<input id="volumeFader" type="range" min="0" max="1" step="0.01" value="0.5">
-		<br>
-	
-		<h2>Scan</h2>
-		<!-- Fader per la velocità di riproduzione (scan) -->
-		<input id="seekFader" type="range" min="-1" max="1" step="0.01" value="0">
-	
-		<br><br>
-	
-		<!-- Tasto Play per avviare l'audio -->
-		<button id="playButton">si vabbe</button>
+		<h2>Progetti</h2>
+		<a href="simo.html">Project Simo</a>
 	</div>
-	
-	<br><br>
-	
-	<script>
-		const audio = new Audio('sivabbe.mp3'); // Crea un nuovo oggetto audio
-		audio.loop = true; // Imposta l'audio in loop
-	
-		// Gestisce il cambiamento del volume tramite il fader
-		document.getElementById('volumeFader').addEventListener('input', (event) => {
-			audio.volume = event.target.value; // Imposta il volume
-		});
-	
-		// Gestisce lo scanning tramite il fader (controllo della velocità)
-		document.getElementById('seekFader').addEventListener('input', (event) => {
-			const value = event.target.value;
-	
-			// Imposta la velocità di riproduzione in base al valore del fader
-			// La velocità va da 0.1 (molto lento) a 3 (molto veloce)
-			if (value === '0') {
-				audio.playbackRate = 1;  // Velocità normale (audio normale)
-			} else {
-				audio.playbackRate = value * 2 + 1;  // Va da 0.1 (lento) a 3 (veloce)
-			}
-		});
-	
-		// Gestisce il tasto Play
-		document.getElementById('playButton').addEventListener('click', () => {
-			if (audio.paused) {
-				audio.play(); // Avvia la riproduzione se l'audio è in pausa
-				document.getElementById('playButton').textContent = 'Pause'; // Cambia il testo del tasto a "Pause"
-			} else {
-				audio.pause(); // Pausa l'audio se è in riproduzione
-				document.getElementById('playButton').textContent = 'Play'; // Cambia il testo del tasto a "Play"
-			}
-		});
-	</script>	
-	
+
+	<br>
+
+
+	<br>
+	<br>
+
+
+
 </body>
 
 </html>

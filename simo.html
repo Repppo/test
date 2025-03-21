@@ -5,6 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simo Sound Machine</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            transition: background-color 0.5s ease;
+            animation: none;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-10px); }
+        }
+
+        .curse-fader {
+            width: 100%;
+            transition: background;
+            border-radius: 10px;
+        }
+
+        .soundboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .sound-button {
+            padding: 20px;
+            font-size: 20px;
+            border: none;
+            background-color: #357a39;
+            color: white;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: background 0.3s;
+        }
+
+        .sound-button:hover {
+            background-color: #2a5f2d;
+        }
+    </style>
 </head>
 <body>
 
@@ -13,49 +53,66 @@
         <h2>A little sound player, with a twist.</h2>
     </div>
 
-    <br><br>
+
+    <div class="power-switch">
+      <button class="switch-on">ON</button>
+      <button class="switch-off">OFF</button>
+  </div>
+<br>
+    <div class="container soundboard" id="soundboard">
+        <button class="sound-button" data-sound="sivabbe.mp3">Sivabbe</button>
+        <button class="sound-button" data-sound="echecculo.mp3">Eccheculo</button>
+        <button class="sound-button" data-sound="posso gankare.mp3">Posso Gankare</button>
+        <button class="sound-button" data-sound="tir.mp3">Preso un Tir</button>
+    </div>
 
     <div class="container">
-
-        <!-- Tasto Play -->
-        <button id="playButton" class="play-button">PLAY</button>
-
         <h2>Volume</h2>
-        <input id="volumeFader" type="range" min="0" max="1" step="0.01" value="0.5">
+        <input id="volumeFader" type="range" min="0" max="1" step="0.01" value="1">
         <br>
 
         <h2>Curse</h2>
-        <input id="curseFader" type="range" min="0" max="1" step="0.01" value="0">
-
+        <input id="curseFader" class="curse-fader" type="range" min="0" max="1" step="0.01" value="0">
     </div>
 
     <script>
-        const audio = new Audio('sivabbe.mp3');
+        let audio = new Audio();
         audio.loop = true;
 
+        const curseFader = document.getElementById('curseFader');
+        const volumeFader = document.getElementById('volumeFader');
+        const body = document.body;
+        const soundButtons = document.querySelectorAll('.sound-button');
+
+        soundButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                audio.src = button.getAttribute('data-sound');
+                audio.play();
+            });
+        });
+
         // Controllo Volume
-        document.getElementById('volumeFader').addEventListener('input', (event) => {
+        volumeFader.addEventListener('input', (event) => {
             audio.volume = event.target.value;
         });
 
-        // Controllo Curse (rallentamento senza fermarsi)
-        document.getElementById('curseFader').addEventListener('input', (event) => {
+        // Effetto Curse (cambia velocità + effetto grafico)
+        curseFader.addEventListener('input', (event) => {
             const curseValue = parseFloat(event.target.value);
-            const minRate = 0.1; // Velocità minima (mai 0)
-            audio.playbackRate = Math.max(1 - curseValue * 0.9, minRate); 
-        });
+            const minRate = 0.1;
+            audio.playbackRate = Math.max(1 - curseValue * 0.9, minRate);
 
-        // Gestione Play/Pausa
-        document.getElementById('playButton').addEventListener('click', () => {
-            if (audio.paused) {
-                audio.play();
-                document.getElementById('playButton').textContent = 'PAUSE';
+            const redIntensity = Math.floor(curseValue * 255);
+            curseFader.style.background = redIntensity < 255 ? `rgb(${redIntensity}, 0, 0)` : `rgb(255, 255, 255)`;
+            body.style.backgroundColor = `rgb(255, ${255 - redIntensity}, ${255 - redIntensity})`;
+
+            if (curseValue > 0.5) {
+                const shakeIntensity = Math.pow(curseValue - 0.5, 2) * 10;
+                body.style.animation = `shake ${0.1 / shakeIntensity}s infinite alternate`;
             } else {
-                audio.pause();
-                document.getElementById('playButton').textContent = 'PLAY';
+                body.style.animation = 'none';
             }
         });
-
     </script>
 
 </body>

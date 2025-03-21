@@ -14,14 +14,6 @@ body {
   margin-top: 20px;
 }
 
-#mouth {
-  width: 100px;
-  height: 50px;
-  background-color: red;
-  border-radius: 50%;
-  margin-top: 20px;
-  transition: height 0.2s ease;
-}
 
 button {
   padding: 10px 20px;
@@ -33,17 +25,6 @@ button {
   margin-bottom: 20px;
 }
 
-.play-button {
-  border-radius: 10px;
-  font-size: 24px;
-  font-weight: bold;
-  background-color: #2e7c30; 
-  width: auto;
-  height: 80px;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
 
 button:hover {
   background-color: #45a049;
